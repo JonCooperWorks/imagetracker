@@ -6,8 +6,8 @@ class Visit(ndb.Model):
 
   This is to be used to log a visit to the page, as well as associated
   metadata.
-  Currently, we only log a visitor's IP address, User-Agent and the time of
-  the visit.
+  Currently, we only log a visitor's IP address, User-Agent, referrer,
+  and the time of the visit.
 
   The nature of the identifier depends on the context in which we're tracking
   user, but should be something meaningful.
@@ -18,9 +18,11 @@ class Visit(ndb.Model):
   # Visitor data.
   ip_address = ndb.StringProperty()
   user_agent = ndb.StringProperty()
+  referrer = ndb.StringProperty()
   time = ndb.DateTimeProperty(auto_now_add=True)
 
   # Administrative data.
+  image = ndb.KeyProperty(kind='Image')
   identifier = ndb.StringProperty()
   user = ndb.UserProperty()
 
