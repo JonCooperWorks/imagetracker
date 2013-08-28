@@ -7,22 +7,24 @@ from models import Visit
 
 class TestVisitModel(testing.TestCase, unittest2.TestCase):
 
-  DEFAULT_EMAIL = 'test@example.com'
+  DEFAULT_IDENTIFIER = 'test@example.com'
   DEFAULT_IP = '192.168.1.1'
 
   def test_defaults(self):
     visit = Visit()
     visit.put()
     self.assertIsNone(visit.ip_address)
-    self.assertIsNone(visit.email)
+    self.assertIsNone(visit.identifier)
+    self.assertIsNone(visit.user)
+    self.assertIsNone(visit.user_agent)
     self.assertAlmostEqual(datetime.datetime.now(), visit.time,
                            delta=datetime.timedelta(seconds=5))
 
-  def test_get_by_email(self):
-    visit = Visit(email=self.DEFAULT_EMAIL)
+  def test_get_by_identifier(self):
+    visit = Visit(identifier=self.DEFAULT_IDENTIFIER)
     visit.put()
-    self.assertLength(1, Visit.get_by_email(self.DEFAULT_EMAIL))
-    self.assertLength(0, Visit.get_by_email('not@registered.com'))
+    self.assertLength(1, Visit.get_by_identifier(self.DEFAULT_IDENTIFIER))
+    self.assertLength(0, Visit.get_by_identifier('not@registered.com'))
 
   def test_get_by_ip_address(self):
     visit = Visit(ip_address=self.DEFAULT_IP)
