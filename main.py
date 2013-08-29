@@ -3,7 +3,8 @@ import os
 import webapp2
 from webapp2_extras.routes import RedirectRoute
 
-from handlers import ImageHandler, TrackingHandler
+from handlers.image import ImageHandler
+from handlers.tracking import TrackingHandler
 
 
 DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Development')
