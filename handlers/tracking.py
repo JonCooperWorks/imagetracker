@@ -44,6 +44,6 @@ class TrackingHandler(BaseHandler):
                   image=image.key, visitor=visitor.key)
     visit.put()
 
-    self.response.content_type = 'image/jpeg'
+    self.response.content_type = str(image.content_type)
     self.response.set_cookie(key='VISITOR_UUID', value=visitor.uuid)
     self.response.out.write(image.data)
