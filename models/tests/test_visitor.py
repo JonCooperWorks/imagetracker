@@ -1,7 +1,7 @@
 import unittest2
 
 from library import testing
-from models import Visitor
+from models.visitor import Visitor
 
 
 class TestVisitor(testing.TestCase, unittest2.TestCase):

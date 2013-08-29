@@ -20,7 +20,6 @@ class ImageHandler(BaseHandler):
 
   def post(self):
     user = users.get_current_user()
-
     if not user:
       return self.abort(404)
 
@@ -34,7 +33,7 @@ class ImageHandler(BaseHandler):
       return
 
     try:
-      image_data = urlfetch.fetch(image_source).content
+      response = urlfetch.fetch(image_source)
 
     # TODO: Handle the error case of image not being there and display this
     # to the user.
@@ -44,9 +43,11 @@ class ImageHandler(BaseHandler):
 
     # Store the image in the datastore and ensure the write is fully applied
     # before redirecting.
-    image = Image(data=image_data, filename=filename,
-                  user=user)
-    image.put()
+    image_data = response.content
+    content_type = response.headers.get('Content-Type', '')
+    image = Image(data=image_data, filename=filename, user=user,
+                  content_type=content_type)
+    image.put().get()
 
     # TODO: Redirect to somewhere useful.
     return self.redirect_to('tracking_image', filename=filename)

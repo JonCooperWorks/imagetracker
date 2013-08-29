@@ -58,6 +58,10 @@ class TestCase(object):
     request.app = app
     return request
 
+  @classmethod
+  def uri_for(cls, name, *args, **kwargs):
+    return webapp2.uri_for(name, cls.get_request(), *args, **kwargs)
+
   def assertLength(self, expected_length, collection):
     try:
       actual_length = collection.count()
@@ -65,3 +69,6 @@ class TestCase(object):
       actual_length = len(collection)
 
     self.assertEqual(expected_length, actual_length)
+
+  def assertOk(self, response):
+    self.assertEqual(200, response.status_int)

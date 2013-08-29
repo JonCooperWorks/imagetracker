@@ -1,7 +1,7 @@
 import unittest2
 
 from library import testing
-from models import Image
+from models.image import Image
 
 
 class TestImage(testing.TestCase, unittest2.TestCase):
@@ -13,6 +13,7 @@ class TestImage(testing.TestCase, unittest2.TestCase):
     self.assertIsNone(image.data)
     self.assertIsNone(image.filename)
     self.assertIsNone(image.user)
+    self.assertIsNone(image.content_type)
 
   def test_get_by_filename(self):
     image = Image(filename=self.DEFAULT_FILENAME)

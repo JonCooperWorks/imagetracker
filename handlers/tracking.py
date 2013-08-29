@@ -36,7 +36,8 @@ class TrackingHandler(BaseHandler):
     # If they're not in our database, create a new entity to track them.
     visitor = Visitor.get_by_uuid(visitor_uuid)
     if visitor is None:
-      visitor = Visitor().put()
+      visitor = Visitor()
+      visitor.put()
 
     visit = Visit(identifier=identifier, ip_address=ip_address,
                   user_agent=user_agent, referrer=referrer,

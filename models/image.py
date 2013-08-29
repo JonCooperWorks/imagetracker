@@ -10,6 +10,7 @@ class Image(ndb.Model):
   correct image."""
 
   # Image data.
+  content_type = ndb.StringProperty()
   data = ndb.BlobProperty()
   filename = ndb.StringProperty()
   user = ndb.UserProperty()

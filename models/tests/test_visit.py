@@ -2,7 +2,7 @@ import datetime
 import unittest2
 
 from library import testing
-from models import Visit
+from models.visit import Visit
 
 
 class TestVisitModel(testing.TestCase, unittest2.TestCase):
