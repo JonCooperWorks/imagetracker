@@ -16,7 +16,7 @@ class ImageHandler(BaseHandler):
   to their image."""
 
   def get(self):
-    return self.render_to_response('form.html')
+    return self.render_to_response('form.haml')
 
   def post(self):
     user = users.get_current_user()
