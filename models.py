@@ -24,7 +24,6 @@ class Visit(ndb.Model):
   # Administrative data.
   image = ndb.KeyProperty(kind='Image')
   identifier = ndb.StringProperty()
-  user = ndb.UserProperty()
 
   @classmethod
   def get_by_identifier(cls, email):
@@ -46,6 +45,7 @@ class Image(ndb.Model):
   # Image data.
   data = ndb.BlobProperty()
   filename = ndb.StringProperty()
+  user = ndb.UserProperty()
 
   @classmethod
   def get_by_filename(cls, filename):

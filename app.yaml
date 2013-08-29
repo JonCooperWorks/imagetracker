@@ -21,5 +21,9 @@ libraries:
   version: latest
 
 handlers:
+- url: /add_image
+  script: main.app
+  login: required
+
 - url: .*
   script: main.app

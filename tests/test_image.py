@@ -12,6 +12,7 @@ class TestImage(testing.TestCase, unittest2.TestCase):
     image = Image()
     self.assertIsNone(image.data)
     self.assertIsNone(image.filename)
+    self.assertIsNone(image.user)
 
   def test_get_by_filename(self):
     image = Image(filename=self.DEFAULT_FILENAME)
