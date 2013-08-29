@@ -18,3 +18,7 @@ class Image(ndb.Model):
   @classmethod
   def get_by_filename(cls, filename):
     return cls.query().filter(cls.filename == filename).get()
+
+  @classmethod
+  def get_by_user(cls, user):
+    return cls.query().filter(cls.user == user)
