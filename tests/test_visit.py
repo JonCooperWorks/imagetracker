@@ -17,6 +17,7 @@ class TestVisitModel(testing.TestCase, unittest2.TestCase):
     self.assertIsNone(visit.identifier)
     self.assertIsNone(visit.image)
     self.assertIsNone(visit.referrer)
+    self.assertIsNone(visit.visitor)
     self.assertIsNone(visit.user_agent)
     self.assertAlmostEqual(datetime.datetime.now(), visit.time,
                            delta=datetime.timedelta(seconds=5))
