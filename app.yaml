@@ -1,5 +1,5 @@
 application: tracking-image
-version: 2
+version: 1
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -21,7 +21,7 @@ libraries:
   version: latest
 
 handlers:
-- url: /add_image
+- url: /dashboard/images
   script: main.app
   login: required
 
