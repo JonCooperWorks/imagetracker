@@ -1,0 +1,16 @@
+-extends "base.haml"
+
+-set title = "Tracking Image Project"
+
+-block content
+  .row: .col-md-12
+    %h2 What is this?
+    %p
+      This website hosts images that when requested, log the viewer's IP
+      address, User-Agent, the time they viewed the image, and the website
+      they saw the image on.
+      It assigns a cookie to each visitor that enables any image hosted here
+      to keep track of them, in theory giving you the ability to track people
+      by simply posting images around the web.
+
+    %img(src="#{uri_for('tracking_image', filename='1pixel.gif')}")

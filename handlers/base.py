@@ -1,5 +1,5 @@
 from google.appengine.api import memcache
-from webapp2_extras import jinja2
+from webapp2_extras import jinja2, sessions
 import webapp2
 
 
@@ -10,13 +10,27 @@ class BaseHandler(webapp2.RequestHandler):
   def jinja2(self):
     return jinja2.get_jinja2(app=self.app)
 
+  @webapp2.cached_property
+  def session(self):
+    return self.session_store.get_session()
+
+  def dispatch(self):
+    """Override dispatch to initialize and persist session data."""
+    self.session_store = sessions.get_store(request=self.request)
+
+    try:
+      super(BaseHandler, self).dispatch()
+    finally:
+      self.session_store.save_sessions(self.response)
+
   def render_template(self, template, context=None):
     """Renders the template with the provided context (optional)."""
     context = context or {}
 
     extra_context = {
         'request': self.request,
-        'uri_for': self.uri_for}
+        'uri_for': self.uri_for,
+        'session': self.session}
 
     # Only override extra context stuff if it's not set by the template:
     for key, value in extra_context.items():

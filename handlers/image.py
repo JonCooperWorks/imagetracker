@@ -20,27 +20,34 @@ class ImageHandler(BaseHandler):
     return self.render_to_response('images.haml', {'images': images})
 
   def post(self):
+    error = None
     user = users.get_current_user()
+
     if not user:
       return self.abort(404)
 
     filename = self.request.POST.get('filename', '')
     image_source = self.request.POST.get('image_source', '')
 
-    # TODO: Handle the error of a filename being present and display the error.
     if Image.get_by_filename(filename):
-      logging.error('File with filename {filename} already exists.'
-                    .format(filename=filename))
-      return
+      error = ('File with filename {filename} already exists.'
+               .format(filename=filename))
+      logging.error(error)
 
     try:
       response = urlfetch.fetch(image_source)
 
-    # TODO: Handle the error case of image not being there and display this
-    # to the user.
     except urlfetch.DownloadError as e:
+      error = ('Failed to download file \'{filename}\''
+               .format(filename=filename))
       logging.exception(e.message)
-      return
+
+    if response.status_code == 404:
+      error = '{filename} not found.'.format(filename=filename)
+
+    if error is not None:
+      self.session.add_flash(value=error, level='error')
+      return self.render_to_response('images.haml')
 
     # Store the image in the datastore and ensure the write is fully applied
     # before redirecting.
@@ -50,5 +57,4 @@ class ImageHandler(BaseHandler):
                   content_type=content_type)
     image.put().get()
 
-    # TODO: Redirect to somewhere useful.
-    return self.redirect_to('tracking_image', filename=filename)
+    return self.redirect_to('image')
