@@ -22,7 +22,7 @@
       -for image in images
         .well.well-sm
           %h5 #{image.filename}
-          .input-group
+          .input-group.input-group-lg
             %input.form-control.input-lg(\
               type="text", \
-              value="#{request.host ~ uri_for('image', filename=image.filename)}")
+              value="#{request.host ~ uri_for('tracking_image', filename=image.filename)}")

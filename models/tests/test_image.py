@@ -1,3 +1,5 @@
+import datetime
+
 import unittest2
 
 from library import testing
@@ -10,10 +12,13 @@ class TestImage(testing.TestCase, unittest2.TestCase):
 
   def test_defaults(self):
     image = Image()
+    image.put()
     self.assertIsNone(image.data)
     self.assertIsNone(image.filename)
     self.assertIsNone(image.user)
     self.assertIsNone(image.content_type)
+    self.assertAlmostEqual(datetime.datetime.now(), image.created,
+                           delta=datetime.timedelta(seconds=5))
 
   def test_get_by_filename(self):
     image = Image(filename=self.DEFAULT_FILENAME)

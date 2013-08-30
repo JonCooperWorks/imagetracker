@@ -15,10 +15,13 @@ class Image(ndb.Model):
   filename = ndb.StringProperty()
   user = ndb.UserProperty()
 
+  # Administrative data.
+  created = ndb.DateTimeProperty(auto_now_add=True)
+
   @classmethod
   def get_by_filename(cls, filename):
     return cls.query().filter(cls.filename == filename).get()
 
   @classmethod
   def get_by_user(cls, user):
-    return cls.query().filter(cls.user == user)
+    return cls.query().filter(cls.user == user).order(-cls.created)
