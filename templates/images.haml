@@ -1,12 +1,12 @@
 -extends "base.haml"
 
--set title = "Add an image"
+-set title = "Manage your images"
 
 -block content
   .row
     .col-md-4
       %h4 Add Image
-      %form(action="#{uri_for('image')}", method="POST", role="form")
+      %form(action="#{uri_for('dashboard.images')}", method="POST", role="form")
         .form-group
           %input.form-control.input-lg(type="text", name="filename", \
                                        placeholder="Filename")
@@ -15,7 +15,7 @@
           %input.form-control.input-lg(type="text", name="image_source", \
                                        placeholder="Image URL")
 
-        %button.btn.btn-large.btn-success(type="submit") Submit Image
+        %button.btn.btn-lg.btn-success(type="submit") Submit Image
 
     .col-md-8
       %h4 Your Images
@@ -25,4 +25,4 @@
           .input-group.input-group-lg
             %input.form-control.input-lg(\
               type="text", \
-              value="#{request.host ~ uri_for('tracking_image', filename=image.filename)}")
+              value="http://#{request.host ~ uri_for('tracking_image', filename=image.filename)}")

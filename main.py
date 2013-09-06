@@ -15,7 +15,7 @@ import os
 import webapp2
 from webapp2_extras.routes import RedirectRoute
 
-from handlers.image import ImageHandler
+from handlers.dashboard import DashboardHandler
 from handlers.static import StaticHandler
 from handlers.tracking import TrackingHandler
 
@@ -24,15 +24,27 @@ DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Development')
 
 
 _routes = [
-    ('/images/<filename:.*>', TrackingHandler, 'tracking_image'),
-    ('/dashboard/images', ImageHandler, 'image'),
-    ('/', StaticHandler('home.haml'), 'home'),
+    ('tracking_image', 'GET', '/images/<filename:.*>', TrackingHandler,
+        'get'),
+    ('dashboard.images', None, '/dashboard/images', DashboardHandler,
+        'images'),
+    ('home', 'GET', '/', StaticHandler('home.haml'), 'get'),
 ]
 
+
 routes = []
-for pattern, handler, name in _routes:
-  route = RedirectRoute(name=name, template=pattern, handler=handler,
+
+for name, methods, pattern, handler_cls, handler_method in _routes:
+  # Allow a single string, but this has to be changed to a list.
+  if isinstance(methods, basestring):
+    methods = [methods]
+
+  # Create the route.
+  route = RedirectRoute(name=name, template=pattern, methods=methods,
+                        handler=handler_cls, handler_method=handler_method,
                         strict_slash=True)
+
+  # Add the route to the proper public list.
   routes.append(route)
 
 webapp2_config = {

@@ -4,6 +4,7 @@ import unittest2
 
 from library import testing
 from models.image import Image
+from models.visit import Visit
 
 
 class TestImage(testing.TestCase, unittest2.TestCase):
@@ -25,3 +26,10 @@ class TestImage(testing.TestCase, unittest2.TestCase):
     image.put()
     self.assertEqual(image.key, Image.get_by_filename(image.filename).key)
     self.assertIsNone(Image.get_by_filename('not.jpg'))
+
+  def test_get_visits(self):
+    image = Image()
+    image.put()
+    visit_key = Visit(image=image.key).put()
+    self.assertLength(1, image.get_visits())
+    self.assertEqual(visit_key, image.get_visits().get().key)
