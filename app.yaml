@@ -26,9 +26,13 @@ libraries:
 
 
 handlers:
-- url: /add_image
+- url: /dashboard/images
   script: main.app
-  login: required
+  login: admin
+
+- url: /analytics
+  script: main.app
+  login: admin
 
 - url: .*
   script: main.app
