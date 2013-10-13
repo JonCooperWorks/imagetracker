@@ -1,3 +1,5 @@
+import datetime
+
 import unittest2
 
 from library import testing
@@ -9,6 +11,8 @@ class TestVisitor(testing.TestCase, unittest2.TestCase):
   def test_defaults(self):
     visitor = Visitor()
     self.assertIsNone(visitor.uuid)
+    self.assertAlmostEqual(datetime.datetime.now(), visitor.timestamp,
+                           delta=datetime.timedelta(seconds=5))
 
   def test_put(self):
     visitor = Visitor()

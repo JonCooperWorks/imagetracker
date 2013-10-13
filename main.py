@@ -20,6 +20,7 @@ import os
 import webapp2
 from webapp2_extras.routes import RedirectRoute
 
+from handlers.analytics import AnalyticsHandler
 from handlers.image import ImageHandler
 from handlers.static import StaticHandler
 from handlers.tracking import TrackingHandler
@@ -31,6 +32,7 @@ DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Development')
 _routes = [
     ('/images/<filename:.*>', TrackingHandler, 'tracking_image'),
     ('/dashboard/images', ImageHandler, 'image'),
+    ('/analytics', AnalyticsHandler, 'analytics'),
     ('/', StaticHandler('home.haml'), 'home'),
 ]
 
