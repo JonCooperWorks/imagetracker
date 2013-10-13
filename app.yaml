@@ -13,12 +13,17 @@ inbound_services:
 - mail
 - warmup
 
+env_variables:
+  KEEN_PROJECT_ID: 525b071336bf5a3ca5000002
+  KEEN_WRITE_KEY: dad0955988167763079add451d2da31c20d82eb9fe31bb6ee582adeaefdf8e001d7bf8be8e0ad9c17a1490f72c42b3a6fd4b763d9dfe609ffc385d030d9fc07bbbdcbf85826ea819160010b0f1b06a8a136bb7fc2206d6514a8bee0ec81aef062597038a15f447074af1c6a19505cf6d
+
 libraries:
 - name: jinja2
   version: "2.6"
 
 - name: webapp2
   version: latest
+
 
 handlers:
 - url: /add_image

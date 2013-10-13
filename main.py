@@ -1,8 +1,13 @@
+ZIP_LIBRARIES = [
+    'library/pyhaml_jinja.zip', 'library/keen.zip',
+    'library/requests.zip', 'library/'
+]
+
+
 # Zipimport configuration:
 def configure_libraries():
   import sys
 
-  ZIP_LIBRARIES = ['library/pyhaml_jinja.zip', 'library/']
   sys.path.extend(ZIP_LIBRARIES)
 
   # Ensure no duplicates in the PYTHONPATH.
