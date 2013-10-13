@@ -10,6 +10,7 @@ class Visitor(ndb.Model):
   across websites."""
 
   uuid = ndb.StringProperty()
+  timestamp = ndb.DateTimeProperty(auto_now_add=True)
 
   def put(self, *args, **kwargs):
     if not self.uuid:

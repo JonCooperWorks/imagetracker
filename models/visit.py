@@ -19,7 +19,7 @@ class Visit(ndb.Model):
   ip_address = ndb.StringProperty()
   user_agent = ndb.StringProperty()
   referrer = ndb.StringProperty()
-  time = ndb.DateTimeProperty(auto_now_add=True)
+  timestamp = ndb.DateTimeProperty(auto_now_add=True)
   visitor = ndb.KeyProperty()
 
   # Administrative data.
