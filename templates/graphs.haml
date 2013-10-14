@@ -1,0 +1,70 @@
+-extends "base.haml"
+
+-set title = "Metrics"
+
+-block js
+  :javascript
+    var Keen=Keen||{configure:function(e){this._cf=e},addEvent:function(e,t,n,i){this._eq=this._eq||[],this._eq.push([e,t,n,i])},setGlobalProperties:function(e){this._gp=e},onChartsReady:function(e){this._ocrq=this._ocrq||[],this._ocrq.push(e)}};(function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://":"http://")+"dc8na2hxrj29i.cloudfront.net/code/keen-2.1.0-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+
+    // Configure the Keen object with your Project ID and (optional) access keys.
+    Keen.configure({
+        projectId: "525b071336bf5a3ca5000002",
+        readKey: "49136d3a6ff5960aaffb898bcf7cef356b7a25ab6a784f3e72ffa96125813e37121e800b1c7666ebf5e3e7b65c95d8cb1dbd327eefa0a4f88dea964038e3119acfbd0273fac5f7c5f0a69afc4996062999cc6e4092075bd3fe23ca7a260aca6c6151d0c8099194506c96aa189f35e55e"    // required for doing analysis
+    });
+
+    Keen.onChartsReady(function() {
+      var metric = new Keen.Metric("visits", {
+        analysisType: "count",
+        targetProperty: "visitor.uuid",
+        groupBy: "referrer"
+      });
+      metric.draw(document.getElementById("total-visits"), {
+        label: "Total Visits by referrer"
+      });
+    });
+
+    Keen.onChartsReady(function() {
+      var series = new Keen.Series("visits", {
+          analysisType: "count",
+          timeframe: "previous_7_days",
+          interval: "daily"
+      });
+
+      series.draw(document.getElementById("daily-visits"), {
+          label: "Day by Day Visits"
+      });
+    });
+
+    Keen.onChartsReady(function() {
+      var metric = new Keen.Metric("visits", {
+        analysisType: "count",
+        targetProperty: "ip_address"
+      });
+      metric.draw(document.getElementById("all-visits"), {
+        label: "Visits to date"
+      });
+    });
+
+    Keen.onChartsReady(function() {
+      var metric = new Keen.Metric("visitors", {
+        analysisType: "count_unique",
+        targetProperty: "uuid"
+      });
+      metric.draw(document.getElementById("unique-visitors"), {
+        label: "Unique Visitors"
+      });
+    });
+
+
+
+-block content
+  %h3 Metrics
+
+  #unique-visitors
+
+  #all-visits
+
+  #total-visits
+
+  #daily-visits
+  

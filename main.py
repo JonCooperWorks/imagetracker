@@ -33,6 +33,7 @@ _routes = [
     ('/images/<filename:.*>', TrackingHandler, 'tracking_image'),
     ('/dashboard/images', ImageHandler, 'image'),
     ('/analytics', AnalyticsHandler, 'analytics'),
+    ('/graphs', StaticHandler('graphs.haml'), 'graphs'),
     ('/', StaticHandler('home.haml'), 'home'),
 ]
 
