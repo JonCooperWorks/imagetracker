@@ -9,7 +9,6 @@ import keen
 from config import DEBUG
 from handlers import base
 from models.visit import Visit
-from models.visitor import Visitor
 
 
 class AnalyticsHandler(base.BaseHandler):
@@ -25,13 +24,9 @@ class AnalyticsHandler(base.BaseHandler):
     one_hour_ago = current_time - datetime.timedelta(hours=1)
     visits = [serialize_ndb_model(visit)
               for visit in Visit.query(Visit.timestamp >= one_hour_ago)]
-    visitors = [serialize_ndb_model(visitor)
-                for visitor in Visitor.query(
-                    Visitor.timestamp >= one_hour_ago)]
-    if visits and visitors:
+    if visits:
       keen.add_events({
           'visits': visits,
-          'visitors': visitors,
       })
 
   def post(self):
