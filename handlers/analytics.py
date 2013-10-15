@@ -6,6 +6,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import keen
 
+from config import DEBUG
 from handlers import base
 from models.visit import Visit
 from models.visitor import Visitor
@@ -49,7 +50,10 @@ class AnalyticsHandler(base.BaseHandler):
     # Shoot the event off to keen.
     logging.info('Successfully sent {visit_key} to keen.io'
                  .format(visit_key=visit_key))
-    keen.add_event('visits', serialize_ndb_model(visit))
+
+    # Don't send data from development app server.
+    if not DEBUG:
+      keen.add_event('visits', serialize_ndb_model(visit))
 
 
 def serialize_ndb_model(model):

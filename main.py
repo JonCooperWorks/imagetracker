@@ -15,19 +15,15 @@ def configure_libraries():
 
 configure_libraries()
 
-import os
-
 import webapp2
 from webapp2_extras.routes import RedirectRoute
 
+from config import DEBUG
 from handlers.analytics import AnalyticsHandler
 from handlers.image import ImageHandler
 from handlers.logout import LogoutHandler
 from handlers.static import StaticHandler
 from handlers.tracking import TrackingHandler
-
-
-DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Development')
 
 
 _routes = [
