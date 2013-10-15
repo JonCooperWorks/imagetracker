@@ -26,7 +26,7 @@ libraries:
 
 
 handlers:
-- url: /dashboard/images
+- url: /dashboard/.*
   script: main.app
   login: admin
 
