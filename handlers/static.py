@@ -1,7 +1,7 @@
 from handlers.base import BaseHandler
 
 
-def StaticHandler(template, login_required=True, use_cache=True):
+def StaticHandler(template, use_cache=True):
   """Generates a handler that can render the specified template."""
 
   class Handler(BaseHandler):

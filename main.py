@@ -22,6 +22,7 @@ from webapp2_extras.routes import RedirectRoute
 
 from handlers.analytics import AnalyticsHandler
 from handlers.image import ImageHandler
+from handlers.logout import LogoutHandler
 from handlers.static import StaticHandler
 from handlers.tracking import TrackingHandler
 
@@ -32,8 +33,10 @@ DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Development')
 _routes = [
     ('/images/<filename:.*>', TrackingHandler, 'tracking_image'),
     ('/dashboard/images', ImageHandler, 'image'),
+    ('/dashboard/metrics', StaticHandler('metrics.haml', use_cache=False),
+        'metrics'),
     ('/analytics', AnalyticsHandler, 'analytics'),
-    ('/dashboard/graphs', StaticHandler('graphs.haml'), 'graphs'),
+    ('/logout', LogoutHandler, 'logout'),
     ('/', StaticHandler('home.haml'), 'home'),
 ]
 

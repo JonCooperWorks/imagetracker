@@ -1,4 +1,5 @@
 import datetime
+import logging
 import time
 
 from google.appengine.api import users
@@ -15,8 +16,8 @@ class AnalyticsHandler(base.BaseHandler):
 
   This handler is responsible for exporting the data received from our visitors
   to keen.io for further processing (Charts, graphs, etc.).
-  It should be run as a scheduled task every hour, meaning the data at keen.io
-  will be at most one hour old."""
+  It can either be run as an hourly cron task (AnalyticsHandler.get) or from
+  the task queue (AnalyticsHandler.post)."""
 
   def get(self):
     current_time = datetime.datetime.utcnow()
@@ -26,11 +27,29 @@ class AnalyticsHandler(base.BaseHandler):
     visitors = [serialize_ndb_model(visitor)
                 for visitor in Visitor.query(
                     Visitor.timestamp >= one_hour_ago)]
-    if visits:
+    if visits and visitors:
       keen.add_events({
           'visits': visits,
           'visitors': visitors,
       })
+
+  def post(self):
+    if not self.is_taskqueue_request():
+      logging.error('Request outside of task queue.')
+      return
+
+    visit_key = self.request.POST.get('visit_key', '')
+    visit = ndb.Key(urlsafe=visit_key).get()
+
+    if not visit:
+      logging.error('Invalid visit key passed: {visit_key}'
+                    .format(visit_key=visit_key))
+      return
+
+    # Shoot the event off to keen.
+    logging.info('Successfully sent {visit_key} to keen.io'
+                 .format(visit_key=visit_key))
+    keen.add_event('visits', serialize_ndb_model(visit))
 
 
 def serialize_ndb_model(model):

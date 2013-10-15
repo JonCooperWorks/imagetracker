@@ -1,4 +1,0 @@
-cron:
-- description: hourly analytics job
-  url: /analytics
-  schedule: every 1 hours synchronized
