@@ -1,3 +1,7 @@
+import logging
+
+from google.appengine.api import taskqueue
+
 from handlers.base import BaseHandler
 from models.image import Image
 from models.visit import Visit
@@ -19,7 +23,10 @@ class TrackingHandler(BaseHandler):
   visitor, allowing us to monitor which websites each person visits, and
   and maintain a list of IP addresses they use.
   We can eventually figure out their identity from this information, by
-  collecting progressively more data."""
+  collecting progressively more data.
+
+  Whenever an image is served, a task is dispatched to send the visit data to
+  keen.io for analysis, and to update our metrics in real time."""
 
   def get(self, filename):
     image = Image.get_by_filename(filename)
@@ -43,6 +50,13 @@ class TrackingHandler(BaseHandler):
                   user_agent=user_agent, referrer=referrer,
                   image=image.key, visitor=visitor.key)
     visit.put()
+
+    # Dispatch a task to send the visit to keen.io for analysis.
+    visit_key = visit.key.urlsafe()
+    logging.info('Dispatching task to process {visit_key}'
+                 .format(visit_key=visit_key))
+    taskqueue.add(url=self.uri_for('analytics'),
+                  params={'visit_key': visit_key})
 
     self.response.content_type = str(image.content_type)
     self.response.set_cookie(key='VISITOR_UUID', value=visitor.uuid)

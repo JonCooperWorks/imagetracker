@@ -64,3 +64,6 @@ class BaseHandler(webapp2.RequestHandler):
       contents = self.render_template(template, context)
 
     self.response.write(contents)
+
+  def is_taskqueue_request(self):
+    return self.request.headers.get('X-AppEngine-QueueName') is not None
