@@ -46,9 +46,9 @@
     });
 
     Keen.onChartsReady(function() {
-      var metric = new Keen.Metric("visitors", {
+      var metric = new Keen.Metric("visits", {
         analysisType: "count_unique",
-        targetProperty: "uuid"
+        targetProperty: "visitor.uuid"
       });
       metric.draw(document.getElementById("unique-visitors"), {
         label: "Unique Visitors"
