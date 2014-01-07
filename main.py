@@ -6,12 +6,13 @@ ZIP_LIBRARIES = [
 
 # Zipimport configuration:
 def configure_libraries():
-  import sys
+    import sys
 
-  sys.path.extend(ZIP_LIBRARIES)
+    sys.path.extend(ZIP_LIBRARIES)
 
-  # Ensure no duplicates in the PYTHONPATH.
-  sys.path = list(set(sys.path))
+    # Ensure no duplicates in the PYTHONPATH.
+    sys.path = list(set(sys.path))
+
 
 configure_libraries()
 
@@ -30,7 +31,7 @@ _routes = [
     ('/images/<filename:.*>', TrackingHandler, 'tracking_image'),
     ('/dashboard/images', ImageHandler, 'image'),
     ('/dashboard/metrics', StaticHandler('metrics.haml', use_cache=False),
-        'metrics'),
+     'metrics'),
     ('/analytics', AnalyticsHandler, 'analytics'),
     ('/logout', LogoutHandler, 'logout'),
     ('/', StaticHandler('home.haml'), 'home'),
@@ -38,9 +39,9 @@ _routes = [
 
 routes = []
 for pattern, handler, name in _routes:
-  route = RedirectRoute(name=name, template=pattern, handler=handler,
-                        strict_slash=True)
-  routes.append(route)
+    route = RedirectRoute(name=name, template=pattern, handler=handler,
+                          strict_slash=True)
+    routes.append(route)
 
 webapp2_config = {
     'webapp2_extras.sessions': {
@@ -55,7 +56,6 @@ webapp2_config = {
         },
     },
 }
-
 
 app = webapp2.WSGIApplication(routes=routes, debug=DEBUG,
                               config=webapp2_config)
